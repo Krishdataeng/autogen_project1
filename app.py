@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from agents import ResearchAgent
+from agents import ResearchAgents
 from data_loader import DataLoader
 
 load_dotenv()
@@ -20,7 +20,7 @@ if not groq_api_key:
     st.stop()
 
 # Initialize AI Agents for summarization and analysis
-agents = ResearchAgent(groq_api_key)
+agents = ResearchAgents(groq_api_key)
 
 # Initialize DataLoader for fetching research papers
 data_loader = DataLoader()
@@ -34,8 +34,9 @@ if st.button("Search"):
         
         # Fetch research papers from ArXiv and Google Scholar
         arxiv_papers = data_loader.fetch_arxiv_papers(query)
-        google_scholar_papers = data_loader.fetch_google_scholar_papers(query)
-        all_papers = arxiv_papers + google_scholar_papers  # Combine results from both sources
+        #google_scholar_papers = data_loader.fetch_google_scholar_papers(query)
+        #all_papers = arxiv_papers + google_scholar_papers  # Combine results from both sources
+        all_papers = arxiv_papers
 
         # If no papers are found, display an error message
         if not all_papers:

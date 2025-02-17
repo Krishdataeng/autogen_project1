@@ -2,11 +2,20 @@ import requests
 import xml.etree.ElementTree as ET
 from scholarly import scholarly
 
-print("ok")
-
 class DataLoader:
+    def __init__(self):
+        print("DataLoader Init")
     def fetch_arxiv_papers(self, query):
+        """
+            Fetches top 5 research papers from ArXiv based on the user query.
+            If <5 papers are found, expands the search using related topics.
+            
+            Returns:
+                list: A list of dictionaries containing paper details (title, summary, link).
+        """
+        
         def search_arxiv(query):
+            """Helper function to query ArXiv API."""
             url = f"http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=5"
             response = requests.get(url)
             if response.status_code == 200:
@@ -37,7 +46,13 @@ class DataLoader:
                     papers = papers[:5]  # Ensure max 5 papers
 
         return papers
+
     def fetch_google_scholar_papers(self, query):
+        """
+            Fetches top 5 research papers from Google Scholar.
+            Returns:
+                list: A list of dictionaries containing paper details (title, summary, link)
+        """
         papers = []
         search_results = scholarly.search_pubs(query)
 
